@@ -17,6 +17,9 @@ import hashlib #* Hasheo
 import os      #* Sistema 
 import random  #* Random
 import yaml    #* Orden¿
+from dotenv import load_dotenv
+
+load_dotenv() #* Conecta el .py con el .env
 
 empleados     = []
 departamentos = []
@@ -25,10 +28,10 @@ id_empleado   = 0
 id_dpto       = 0
 id_usuario    = 0
 
-# [CONFIDENCIALIDAD - B105/B106] Credenciales sensibles hardcodeadas #!Linea 29 y 30 (Sonar) 31 (Bandit) revizar!
-API_KEY = "sk-rrhh-2024-superkey"
-DB_HOST = "192.168.1.100"
-DB_PASS = "rrhh_pass_123"
+# Credenciales sensibles .env
+API_KEY = os.getenv("API_KEY")
+DB_HOST = os.getenv("DB_HOST")
+DB_PASS = os.getenv("DB_PASS")
 
 # Roles del sistema
 ROL_ADMIN    = "admin"

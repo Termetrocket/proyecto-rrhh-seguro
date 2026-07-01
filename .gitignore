@@ -1,1 +1,4 @@
 .env
+sonar-project.properties
+Bandit_Reports/
+test.txt
