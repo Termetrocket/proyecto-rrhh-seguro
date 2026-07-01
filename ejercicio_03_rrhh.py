@@ -18,6 +18,8 @@ import os      #* Sistema
 import random  #* Random
 import yaml    #* Orden¿
 import subprocess #* para el subprocess.run
+import secrets #* Codigos randoms seguros
+import bcrypt #* Hasheo seguro
 from dotenv import load_dotenv
 
 load_dotenv() #* Conecta el .py con el .env
@@ -133,7 +135,7 @@ def registrar_usuario_rrhh():
 
     # [CONFIDENCIALIDAD - B324] MD5 sin salt — vulnerable a rainbow tables
     # Corrección: bcrypt o hashlib.sha256 con salt aleatorio
-    hash_clave = hashlib.md5(clave.encode()).hexdigest() #! Linea 130 (Bandit) hasheo penka
+    hash_clave = bcrypt.hashpw(clave.encode(), bcrypt.gensalt()) #* bcrypt 
 
     usuario = {
         "id"       : id_usuario,
@@ -155,7 +157,7 @@ def iniciar_sesion():
     # [DISPONIBILIDAD] Sin try/except: un fallo inesperado tumba el sistema #! Agregar try/except para k no tumbe
     usuario = buscar_usuario(user)
     if usuario:
-        hash_ingresada = hashlib.md5(clave.encode()).hexdigest() #! Linea 152 (Bandit) Hasheo penka
+        hash_ingresada = bcrypt.hashpw(clave.encode(), bcrypt.gensalt()) #*bcrypt
         if usuario["clave"] == hash_ingresada:
             # [CONFIDENCIALIDAD] Imprime el hash de la contraseña en pantalla
             print(f"Bienvenido {usuario['nombre']} - Perfil: {usuario['rol']} - hash: {usuario['clave']}.")
@@ -242,9 +244,9 @@ def agregar_empleado(rol):
 
     # [INTEGRIDAD - S2245] random.randint no es seguro para generar códigos únicos
     # Corrección: secrets.token_hex(4) o uuid.uuid4()
-    codigo = "EMP-" + str(random.randint(100, 999)) #! Linea 243 (Bandit), codigos penka
+    codigo = "EMP-" + str(secrets.token_hex(4)) #* Genera codigos randoms seguros
 
-    # [DISPONIBILIDAD] Sin try/except: crash si sueldo_base o id_d no son numéricos #! comentario de la 230
+    # [DISPONIBILIDAD] Sin try/except: crash si sueldo_base o id_d no son numéricos
     empleado = {
         "id"          : id_empleado,
         "codigo"      : codigo,
@@ -383,7 +385,7 @@ def reporte_empleados_anonimizado():
 
 
 #  LIQUIDACIÓN
-def calcular_liquidacion(rol): #! Linea 388 (sonar) no se ocupa la mrd de rol
+def calcular_liquidacion(rol):
     # [CONTROL DE ACCESO] Un empleado solo debería ver su propia liquidación #! lee mrd
     # Corrección: filtrar por el empleado vinculado al usuario en sesión
     print(SEPARADOR)
@@ -475,7 +477,7 @@ def gestion_departamentos(rol):
             break
         else:
             print(MSG_OPCION_FUERA_DE_RANGO)
-                                            #! constante pork se ocupa 5 vece xd (princeso)
+
 def gestion_empleados(rol):
     while True:
         menu_empleados()
