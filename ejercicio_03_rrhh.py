@@ -36,8 +36,9 @@ MSG_EMPLEADO_NO_ENCONTRADO = "Empleado no encontrado."
 MSG_PRESIONE_ENTER = "\n\nPRESIONE ENTER PARA CONTINUAR"
 MSG_INGRESE_OPCION = "INGRESE OPCIÓN: "
 MSG_OPCION_FUERA_DE_RANGO = "Opción fuera de rango"
-ANCHO_NUMERO = 6
-ANCHO_TEXTO = 30
+MSG_ACCESO_DENEDAGO = "Acceso Denedago."
+MSG_ID_NUMERICO = "ID debe ser numerico."
+MSG_DESEA_SALIR = "¿DESEA SALIR [SI/NO]: "
 
 #  Credenciales sensibles .env
 API_KEY = os.getenv("API_KEY")
@@ -122,7 +123,7 @@ def menu_principal(rol):
     else:
         print("       4.- Salir                ")
     print(SEPARADOR)
-    print(f"  [INFO] Sesión iniciada")
+    print("[INFO] Sesión iniciada")
 
 def menu_empleados():
     print(SEPARADOR)
@@ -241,7 +242,7 @@ def agregar_departamento(rol):
     #! Se agrego verificacion, solo admin puede crear un dep
     if rol != ROL_ADMIN:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -298,7 +299,7 @@ def eliminar_departamento(rol):
     #! Solo admin puede eliminar un dep
     if rol != ROL_ADMIN:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -317,14 +318,14 @@ def eliminar_departamento(rol):
         else:
             print("Departamento no encontrado.")
     except ValueError:
-        print("El ID debe ser numerico.")
+        print("MSG_ID_NUMERICO")
         input(MSG_PRESIONE_ENTER)
 
 #  EMPLEADOS
 def agregar_empleado(rol):
     if rol == ROL_EMPLEADO:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -462,7 +463,7 @@ def mostrar_empleado_uno():
 def modificar_empleado(rol):
     if rol == ROL_EMPLEADO:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -476,7 +477,7 @@ def modificar_empleado(rol):
         mod = int(input("\nIngrese ID del empleado a modificar: "))
     
     except ValueError:
-        print("ID debe ser numerico.")
+        print("MSG_ID_NUMERICO")
         input(MSG_PRESIONE_ENTER)
         return
     
@@ -511,7 +512,7 @@ def modificar_empleado(rol):
 def eliminar_empleado(rol):
     if rol != ROL_ADMIN:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -524,7 +525,7 @@ def eliminar_empleado(rol):
         elim = int(input("Ingrese ID del empleado a eliminar: "))
 
     except ValueError:
-        print("ID debe ser numerico.")
+        print("MSG_ID_NUMERICO")
         input(MSG_PRESIONE_ENTER)
         return
     
@@ -586,7 +587,7 @@ def calcular_liquidacion(usuario_actual):
             id_e = int(input("Ingrese ID del empleado: "))
 
         except ValueError:
-            print("ID debe ser numerico.")
+            print("MSG_ID_NUMERICO")
             input(MSG_PRESIONE_ENTER)
             return
         
@@ -632,7 +633,7 @@ def calcular_liquidacion(usuario_actual):
 def cargar_config_yaml(rol):
     if rol != ROL_ADMIN:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -660,7 +661,7 @@ def cargar_config_yaml(rol):
 def generar_informe(rol):
     if rol == ROL_EMPLEADO:
         print(SEPARADOR)
-        print("Acceso Denedago.")
+        print(MSG_ACCESO_DENEDAGO)
         print(SEPARADOR)
         input(MSG_PRESIONE_ENTER)
         return
@@ -795,7 +796,7 @@ while True:
                     elif op == 5:
                         gestion_reportes(rol_actual)
                     elif op == 6:
-                        op_salir = input("¿DESEA SALIR [SI/NO]: ")
+                        op_salir = input(MSG_DESEA_SALIR)
                         if op_salir.lower() == "si":
                             break
                     else:
@@ -808,7 +809,7 @@ while True:
                     elif op == 3:
                         calcular_liquidacion(usuario_actual)
                     elif op == 4:
-                        op_salir = input("¿DESEA SALIR [SI/NO]: ")
+                        op_salir = input(MSG_DESEA_SALIR)
                         if op_salir.lower() == "si":
                             break
                     else:
@@ -817,7 +818,7 @@ while True:
     elif opAuth == 2:
         registrar_usuario_rrhh()
     elif opAuth == 3:
-        op_salir = input("¿DESEA SALIR [SI/NO]: ")
+        op_salir = input(MSG_DESEA_SALIR)
         if op_salir.lower() == "si":
             break
     else:
